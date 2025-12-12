@@ -120,6 +120,34 @@ class Server:
                 "description": "Example output of the genz anonymizer."
             }
             return jsonify(response), 200
+        @self.app.route("/genz", methods=["POST"])
+        def genz():
+            content = request.get_json()
+            if not content:
+                raise BadRequest("Invalid request json")
+
+            text = content.get("text", "")
+            analyzer_results = AppEntitiesConvertor.analyzer_results_from_json(
+                content.get("analyzer_results")
+            )
+
+            # Use the Gen-Z anonymizer operator for every entity
+            genz_config = {
+                result.entity_type: {"type": "genz"}
+                for result in analyzer_results
+            }
+
+            genz_result = self.anonymizer.anonymize(
+                text=text,
+                analyzer_results=analyzer_results,
+                operators=genz_config,
+            )
+
+            return Response(
+                genz_result.to_json(),
+                mimetype="application/json"
+            )
+
 
 def create_app(): # noqa
     server = Server()
