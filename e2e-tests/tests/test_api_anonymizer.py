@@ -401,3 +401,38 @@ def test_overlapping_keep_both():
 
     assert response_status == 200
     assert equal_json_strings(expected_response, response_content)
+def test_given_anonymize_called_with_genz_then_expected_valid_response_returned():
+    """
+    Ensure /genz endpoint returns 200 OK and a valid JSON response.
+    Since Gen-Z operator is random, we won't check the exact text.
+    """
+
+    request_body = {
+        "text": "Please contact Emily Carter at 734-555-9284 if you have questions about the workshop registration.",
+        "analyzer_results": [
+            {
+                "start": 15,
+                "end": 27,
+                "score": 0.3,
+                "entity_type": "PERSON"
+            },
+            {
+                "start": 31,
+                "end": 43,
+                "score": 0.95,
+                "entity_type": "PHONE_NUMBER"
+            }
+        ]
+    }
+
+    response = methods.call_anonymize_service(
+        method="post",
+        route="/genz",
+        body=request_body
+    )
+
+    assert response.status_code == 200
+    json_body = response.json()
+    assert "text" in json_body          # The anonymized result text
+    assert "items" in json_body         # Contains replaced entities
+    assert isinstance(json_body["items"], list)
