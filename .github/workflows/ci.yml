@@ -133,7 +133,9 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
+          pip install presidio-anonymizer
           pip install -r e2e-tests/requirements.txt
+
 
 
       - name: Wait for services to be ready
