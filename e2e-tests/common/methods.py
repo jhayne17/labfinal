@@ -48,3 +48,14 @@ def __get_multipart_form_data(file):
             "image": (file.name, file, "multipart/form-data"),
         }
     return multipart_form_data
+def call_anonymize_service(method, route, body=None):
+    url = f"{ANONYMIZER_BASE_URL}{route}"
+
+    if method.lower() == "post":
+        response = requests.post(url, json=body, headers=DEFAULT_HEADERS)
+    elif method.lower() == "get":
+        response = requests.get(url, headers=DEFAULT_HEADERS)
+    else:
+        raise ValueError("Unsupported method")
+
+    return response
