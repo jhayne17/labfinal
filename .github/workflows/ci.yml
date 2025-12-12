@@ -129,6 +129,7 @@ jobs:
             ${{ runner.os }}-${{ matrix.platform }}-e2e-
 
       - name: Install E2E test dependencies
+        working-directory: e2e-tests
         run: |
           python -m venv env
           source env/bin/activate
