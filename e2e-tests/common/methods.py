@@ -59,3 +59,18 @@ def call_anonymize_service(method, route, body=None):
         raise ValueError("Unsupported method")
 
     return response
+import os
+import json
+import requests
+from common.constants import ANONYMIZER_BASE_URL, DEFAULT_HEADERS
+
+def genz(request_body):
+    """
+    Call the /genz endpoint of the anonymizer and return status and content.
+    """
+    response = requests.post(
+        f"{ANONYMIZER_BASE_URL}/genz",
+        data=json.dumps(request_body),
+        headers=DEFAULT_HEADERS
+    )
+    return response.status_code, response.json()
