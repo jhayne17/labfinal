@@ -116,10 +116,11 @@ class Server:
         def genz_preview():
             response = {
                 "example": "Call Emily at 577-988-1234",
-                "example_output": "Call GOAT at vibe check",
+                "example output": "Call GOAT at vibe check",  # note space, not underscore
                 "description": "Example output of the genz anonymizer."
             }
             return jsonify(response), 200
+
         @self.app.route("/genz", methods=["POST"])
         def genz():
             content = request.get_json()
