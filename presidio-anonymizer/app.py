@@ -112,6 +112,15 @@ class Server:
             self.logger.error(f"A fatal error occurred during execution: {e}")
             return jsonify(error="Internal server error"), 500
 
+        @self.app.route("/genz-preview", methods=["GET"])
+        def genz_preview():
+            response = {
+                "example": "Call Emily at 577-988-1234",
+                "example_output": "Call GOAT at vibe check",
+                "description": "Example output of the genz anonymizer."
+            }
+            return jsonify(response), 200
+
 def create_app(): # noqa
     server = Server()
     return server.app
