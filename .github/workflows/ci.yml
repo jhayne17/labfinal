@@ -131,12 +131,9 @@ jobs:
       - name: Install E2E test dependencies
         working-directory: e2e-tests
         run: |
-          python -m venv env
-          source env/bin/activate
-          python -m pip install --upgrade pip
           python -m venv venv
           source venv/bin/activate
-          pip install presidio-anonymizer
+          pip install --upgrade pip
           pip install -r e2e-tests/requirements.txt
 
 
